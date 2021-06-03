@@ -1,17 +1,33 @@
 package com.example.guessthecountry;
+/*
+At first I created DownloadTask class and with that class I downloaded the HTML codes of the related
+web site as a  string value.
 
+After that I find out the relevant parts of the HTML codes with using regex. And created two lists;
+one for country names,and the other one for urls of the flags.
+
+And than I have created the "game" method. At there firstly I created a random int value(in range
+of the length of the country list) to select a country from the country list. Secondly I created a
+random integer value(in range of 4) to select a random button to show the correct answer. Thirdly
+I have created a new list for the answers(both right and wrong). After that I have assigned the
+texts of the buttons. At last I have downloaded the image of the country's flag with the help of
+"ImageDownloader" class. With this way I have created the unique question. To clear out the answers
+every time I have added a piece of code to the very beginning of the game method
+
+Finally I have created "select" method for button interaction. At first I get the tag of the pressed
+button and tried to find out if it is the correct button or not with a simple if-else structure.
+After that I called the game method to create a new question.
+
+ */
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -36,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void select(View view){
 
-        int pressedButton = Integer.valueOf(view.getTag().toString());
+        int pressedButton = Integer.parseInt(view.getTag().toString());
         if (pressedButton == correctButtonIndex){
 
             Toast.makeText(this,"Correct :)",Toast.LENGTH_SHORT).show();
@@ -57,9 +73,11 @@ public class MainActivity extends AppCompatActivity {
         int correctAnsIndex = r.nextInt(countryNames.size());
 
         String correctAnswer = countryNames.get(correctAnsIndex);
-        String imageUrl = "https://www.worldometers.info/img/flags/"+imageUrls.get(correctAnsIndex)+".gif";
-        Log.i("Answer : ",correctAnswer+" : "+ Integer.toString(correctButtonIndex));
+        String imageUrl = "https://www.worldometers.info/img/flags/" + imageUrls.get(correctAnsIndex) + ".gif";
+
         correctButtonIndex = r.nextInt(4);
+        //Log.i("Answer : ",correctAnswer + " : " + Integer.toString(correctButtonIndex));
+
         for (int i = 0; i < 4; i++){
             if (i == correctButtonIndex){
                 answers.add(correctAnswer);
